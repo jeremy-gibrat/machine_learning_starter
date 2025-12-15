@@ -6,8 +6,23 @@ import logging
 from pathlib import Path
 from config.config import LOG_FILE, LOG_LEVEL
 
+class ColorFormatter(logging.Formatter):
+    COLORS = {
+        'DEBUG': '\033[36m',    # Cyan
+        'INFO': '\033[32m',     # Vert
+        'WARNING': '\033[33m',  # Jaune
+        'ERROR': '\033[31m',    # Rouge
+        'CRITICAL': '\033[41m', # Fond rouge
+    }
+    RESET = '\033[0m'
 
-def setup_logger(name='ml_project'):
+    def format(self, record):
+        color = self.COLORS.get(record.levelname, '')
+        message = super().format(record)
+        return f"{color}{message}{self.RESET}"
+    
+
+def setup_logger(name='ml_project', colored=True):
     """
     Configure le logger pour le projet
     
@@ -32,30 +47,15 @@ def setup_logger(name='ml_project'):
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
+    if colored:
+        color_formatter = ColorFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        ch.setFormatter(color_formatter)
+    else:
+        ch.setFormatter(formatter)
     fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
     
     logger.addHandler(fh)
     logger.addHandler(ch)
     
     return logger
 
-
-def safe_divide(numerator, denominator, default=None):
-    """
-    Division sécurisée avec gestion des erreurs
-    
-    Args:
-        numerator: Numérateur
-        denominator: Dénominateur
-        default: Valeur par défaut si erreur
-        
-    Returns:
-        float or default: Résultat de la division
-    """
-    if numerator is None or denominator is None or denominator == 0:
-        return default
-    try:
-        return numerator / denominator
-    except (TypeError, ZeroDivisionError):
-        return default

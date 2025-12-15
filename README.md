@@ -48,12 +48,17 @@ template_ml/
 │   │
 │   ├── models/              # Entraînement et prédiction
 │   │   ├── __init__.py
-│   │   ├── train.py
-│   │   └── predict.py
+│   │   ├── train.py         # Inclut la classe PINN, train_pinn, save/load_pinn_model
+│   │   └── predict.py       # Inclut predict_pinn et predict_pinn_from_file
 │   │
 │   └── utils/               # Fonctions utilitaires
 │       ├── __init__.py
-│       └── helpers.py
+│       ├── helpers.py
+│       ├── helpers_math.py      # Fonctions mathématiques (safe_divide, arrondi, clamp...)
+│       ├── helpers_date.py      # Fonctions sur les dates (format, to_utc, etc)
+│       ├── helpers_string.py    # Fonctions sur les chaînes (split, etc)
+│       ├── helpers_object.py    # Fonctions sur les dicts
+│       └── helpers_array.py     # Fonctions sur les listes
 │
 ├── tests/                    # Tests unitaires
 │   ├── __init__.py
