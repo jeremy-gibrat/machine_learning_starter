@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environnement virtuel
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+
+# Data (ne pas committer les données)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/raw/README.md
+!data/processed/README.md
+
+# Models (ne pas committer les modèles entraînés)
+models/*.joblib
+models/*.pkl
+models/*.h5
+models/*.pt
+!models/.gitkeep
+!models/README.md
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Distribution
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+*.tmp
+tmp/
+temp/
