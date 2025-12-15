@@ -28,6 +28,9 @@ def to_utc(date_obj):
     Convertit un datetime en UTC.
     """
     try:
+        # Si l'objet n'a pas de tzinfo, on suppose local
+        if date_obj.tzinfo is None:
+            date_obj = date_obj.replace(tzinfo=tz.tzlocal())
         return date_obj.astimezone(timezone.utc)
     except Exception:
         return None
@@ -37,9 +40,10 @@ def to_locale(date_obj, tz=None):
     Convertit un datetime en timezone locale (ou spécifiée).
     """
     try:
-        if tz:
-            return date_obj.astimezone(tz)
-        return date_obj.astimezone()
+        if tz_name:
+            target_tz = tz.gettz(tz_name)
+            return date_obj.astimezone(target_tz)
+        return date_obj.astimezone(tz.tzlocal())
     except Exception:
         return None
 

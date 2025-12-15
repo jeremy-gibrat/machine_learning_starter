@@ -28,6 +28,7 @@ for directory in [DATA_DIR, RAW_DATA_DIR, PROCESSED_DATA_DIR, MODEL_DIR, LOGS_DI
 # ============================================================================
 API_KEY = os.getenv("API_KEY")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.flightwatching.com")
+ELASTIC_API_BASE_URL = os.getenv("ELASTIC_API_BASE_URL", "https://api.flightwatching.com")
 
 # ============================================================================
 # ML CONFIGURATION

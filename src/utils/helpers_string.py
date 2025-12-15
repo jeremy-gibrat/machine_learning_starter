@@ -59,7 +59,7 @@ def remove_whitespace(s):
     """
     if not isinstance(s, str):
         return s
-    return ''.join(s.split())
+    return s.str.replace(r'[\s\u00A0]+', '', regex=True)
 
 def replace_char(s, old, new):
     """

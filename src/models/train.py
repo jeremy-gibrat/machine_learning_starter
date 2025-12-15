@@ -6,6 +6,8 @@ Module d'entraînement du modèle
 """
 
 import joblib
+from src import __version__
+import re
 import pandas as pd
 import torch
 import torch.nn as nn
@@ -101,13 +103,17 @@ def train_model_regressor(X, y, model_params=None):
 
 def save_model(model, filename):
     """
-    Sauvegarde le modèle entraîné
+    Sauvegarde le modèle entraîné avec suffixe de version
     
     Args:
         model: Modèle à sauvegarder
-        filename (str): Nom du fichier
+        filename (str): Nom du fichier (sans version)
     """
-    filepath = MODEL_DIR / filename
+    # Ajoute le suffixe _vX.Y.Z avant l'extension
+    match = re.match(r"(.+?)(\.[^.]+)?$", filename)
+    base, ext = match.group(1), match.group(2) or ''
+    filename_versioned = f"{base}_v{__version__}{ext}"
+    filepath = MODEL_DIR / filename_versioned
     joblib.dump(model, filepath)
     print(f"✅ Modèle sauvegardé: {filepath}")
 
@@ -171,10 +177,12 @@ class PINN(nn.Module):
 
     def save_pinn_model(model, path):
         """
-        Sauvegarde les poids du modèle PINN
+        Sauvegarde les poids du modèle PINN avec suffixe de version
         """
-        import torch
-        torch.save(model.state_dict(), path)
+        match = re.match(r"(.+?)(\.[^.]+)?$", str(path))
+        base, ext = match.group(1), match.group(2) or ''
+        path_versioned = f"{base}_v{__version__}{ext}"
+        torch.save(model.state_dict(), path_versioned)
 
     def load_pinn_model(model_class, path, *args, **kwargs):
         """
@@ -186,7 +194,6 @@ class PINN(nn.Module):
         Returns:
             modèle PINN avec poids chargés
         """
-        import torch
         model = model_class(*args, **kwargs)
         model.load_state_dict(torch.load(path, map_location="cpu"))
         model.eval()
